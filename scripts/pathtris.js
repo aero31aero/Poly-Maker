@@ -265,7 +265,7 @@ PathTris.prototype = {
 
     for (var c = 0; c < this.controlPoints_.length; c++) {
       point = this.controlPoints_[c];
-      ctx.fillStyle = "#888";
+      ctx.fillStyle = c==0||c==3? '#333' : "#888";
       ctx.beginPath();
       ctx.arc(point.x, point.y, 6, 0, TAU, false);
       ctx.closePath();
@@ -362,7 +362,7 @@ PathTris.prototype = {
     }
 
     if (this.animating_)
-      webkitRequestAnimationFrame(this.drawAllEntities);
+      requestAnimationFrame(this.drawAllEntities);
 
     TWEEN.update();
 
@@ -440,7 +440,7 @@ PathTris.prototype = {
     ctx.restore();
 
     if (this.animating_)
-      webkitRequestAnimationFrame(this.render);
+      requestAnimationFrame(this.render);
   },
 
   lookUpColor_: function(tp1, tp2, tp3) {
@@ -471,14 +471,14 @@ PathTris.prototype = {
   },
 
   onCanvasClick: function(e) {
-
+    
     if (this.controlPoints_.length >= 4) {
       this.controlPoints_.length = 0;
       this.firstRender_ = true;
     }
-
     var point = new Point(e.offsetX, e.offsetY);
     this.controlPoints_.push(point);
+    this.renderControlPoints_();
     this.calculate();
     this.render();
   },
